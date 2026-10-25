@@ -41,7 +41,8 @@ jobs:
           name="myna-browser-agent-${tag#v}"
           mkdir -p "dist/$name"
           cp -R manifest.json src docs README.md LICENSE PRIVACY.md SECURITY.md \
-            CHANGELOG.md THIRD_PARTY_NOTICES.md "dist/$name/"
+            CHANGELOG.md THIRD_PARTY_NOTICES.md CONTRIBUTING.md CODE_OF_CONDUCT.md \
+            SUPPORT.md "dist/$name/"
           (cd dist && zip -qr "${name}.zip" "$name")
           printf '%s\n' "$PWD/dist/${name}.zip"
 

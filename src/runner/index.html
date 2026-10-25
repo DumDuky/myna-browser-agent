@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Myna scheduled task</title>
+    <link rel="stylesheet" href="runner.css" />
+  </head>
+  <body>
+    <main class="runner">
+      <div class="mark" aria-hidden="true">
+        <img src="../assets/icon-48.png" alt="" />
+      </div>
+      <p class="eyebrow">Scheduled task</p>
+      <h1 id="taskName">Starting…</h1>
+      <p id="status" class="status">Opening the page and connecting the model.</p>
+      <div class="bar"><span id="bar"></span></div>
+      <details class="log">
+        <summary>Activity</summary>
+        <pre id="log"></pre>
+      </details>
+    </main>
+    <script type="module" src="runner.js"></script>
+  </body>
+</html>

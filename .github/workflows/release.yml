@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to publish, for example v0.2.0
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Package extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify
+        run: |
+          npm test
+          npm run check
+
+      - name: Build zip
+        run: |
+          set -euo pipefail
+          tag="${{ inputs.tag || github.ref_name }}"
+          name="myna-browser-agent-${tag#v}"
+          mkdir -p "dist/$name"
+          cp -R manifest.json src docs README.md LICENSE PRIVACY.md SECURITY.md \
+            CHANGELOG.md THIRD_PARTY_NOTICES.md "dist/$name/"
+          (cd dist && zip -qr "${name}.zip" "$name")
+          printf '%s\n' "$PWD/dist/${name}.zip"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          name: Myna ${{ inputs.tag || github.ref_name }}
+          generate_release_notes: true
+          files: dist/*.zip
+          fail_on_unmatched_files: true

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" data-theme="system" data-density="comfortable">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Myna</title>
+    <link rel="icon" href="../assets/icon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button
+            id="historyButton"
+            class="icon-button"
+            type="button"
+            aria-label="Chat history"
+            title="Chat history"
+          >
+            <span data-icon="history"></span>
+          </button>
+          <div class="brand" aria-label="Myna">
+            <span class="brand-mark" data-icon="bird" aria-hidden="true"></span>
+            <span class="brand-name">Myna</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button
+            id="newChatButton"
+            class="icon-button"
+            type="button"
+            aria-label="New chat"
+            title="New chat"
+          >
+            <span data-icon="plus"></span>
+          </button>
+          <button
+            id="settingsButton"
+            class="icon-button"
+            type="button"
+            aria-label="Settings"
+            title="Settings"
+          >
+            <span data-icon="settings"></span>
+          </button>
+        </div>
+      </header>
+
+      <div id="offlineBanner" class="banner banner-warn" hidden>
+        Chrome is offline. Myna will reconnect when the network returns.
+      </div>
+
+      <button id="contextBar" class="context-bar" type="button" title="Follow the active tab">
+        <span class="favicon-wrap" aria-hidden="true">
+          <img id="tabFavicon" class="favicon" alt="" />
+          <span class="favicon-fallback" data-icon="globe"></span>
+        </span>
+        <span class="context-copy">
+          <span id="tabTitle" class="context-title">No page attached</span>
+          <span id="tabHost" class="context-host"></span>
+        </span>
+        <span id="contextStatus" class="context-status" aria-hidden="true"></span>
+      </button>
+
+      <main id="chat" class="chat" aria-live="polite" aria-label="Conversation"></main>
+
+      <div id="jumpButton" class="jump-button" hidden>
+        <span data-icon="down"></span>
+        Jump to latest
+      </div>
+
+      <div id="composerArea" class="composer-area">
+        <div id="permissionSlot" class="permission-slot" hidden></div>
+        <div id="attachmentStrip" class="attachment-strip" hidden></div>
+        <div class="composer-shell">
+          <textarea
+            id="composerInput"
+            class="composer-input"
+            rows="1"
+            placeholder="Ask Myna to do something on this page…"
+            aria-label="Message Myna"
+            spellcheck="true"
+          ></textarea>
+          <div class="composer-toolbar">
+            <div class="composer-left">
+              <button
+                id="attachButton"
+                class="tool-button"
+                type="button"
+                aria-label="Attach an image"
+                title="Attach an image"
+              >
+                <span data-icon="paperclip"></span>
+              </button>
+              <button
+                id="filesButton"
+                class="tool-button"
+                type="button"
+                aria-label="Attach files for page upload"
+                title="Attach files for page upload"
+              >
+                <span data-icon="upload"></span>
+                <span class="tool-label">Files</span>
+              </button>
+              <button
+                id="pageButton"
+                class="tool-button"
+                type="button"
+                aria-label="Attach page text"
+                title="Attach page text"
+              >
+                <span data-icon="page"></span>
+                <span class="tool-label">Page</span>
+              </button>
+              <button
+                id="screenshotButton"
+                class="tool-button"
+                type="button"
+                aria-label="Attach a screenshot"
+                title="Attach a screenshot"
+              >
+                <span data-icon="camera"></span>
+              </button>
+            </div>
+            <div class="composer-right">
+              <button id="sendButton" class="send-button" type="button" aria-label="Send">
+                <span data-icon="arrow-up"></span>
+              </button>
+              <button id="stopButton" class="stop-button" type="button" aria-label="Stop" hidden>
+                <span data-icon="stop"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="composer-meta">
+          <div class="meta-left">
+            <div id="modePicker" class="mode-picker" data-mode="ask">
+              <button
+                id="modeButton"
+                class="mode-button"
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                title="Permission mode"
+              >
+                <span class="mode-dot" aria-hidden="true"></span>
+                <span id="modeLabel">Ask first</span>
+                <span data-icon="chevron-down" class="mode-chevron"></span>
+              </button>
+              <div id="modeMenu" class="mode-menu" role="listbox" aria-label="Permission mode" hidden>
+                <button class="mode-option" type="button" role="option" data-mode="ask" aria-selected="true">
+                  <span class="mode-option-copy">
+                    <span class="mode-option-name">Ask first</span>
+                    <span class="mode-option-desc">Approve reads and actions site by site.</span>
+                  </span>
+                  <span data-icon="check" class="mode-option-check"></span>
+                </button>
+                <button class="mode-option" type="button" role="option" data-mode="auto" aria-selected="false">
+                  <span class="mode-option-copy">
+                    <span class="mode-option-name">Auto-run</span>
+                    <span class="mode-option-desc">Act without prompting. Sensitive sites still ask.</span>
+                  </span>
+                  <span data-icon="check" class="mode-option-check"></span>
+                </button>
+                <button class="mode-option" type="button" role="option" data-mode="plan" aria-selected="false">
+                  <span class="mode-option-copy">
+                    <span class="mode-option-name">Plan first</span>
+                    <span class="mode-option-desc">Review a plan and its domains before Myna acts.</span>
+                  </span>
+                  <span data-icon="check" class="mode-option-check"></span>
+                </button>
+                <button class="mode-option" type="button" role="option" data-mode="readonly" aria-selected="false">
+                  <span class="mode-option-copy">
+                    <span class="mode-option-name">Read only</span>
+                    <span class="mode-option-desc">Read pages, but never click, type, or navigate.</span>
+                  </span>
+                  <span data-icon="check" class="mode-option-check"></span>
+                </button>
+              </div>
+            </div>
+            <button id="modelPill" class="model-pill" type="button" title="Change model">
+              <span class="model-dot" aria-hidden="true"></span>
+              <span id="modelLabel">No model</span>
+            </button>
+          </div>
+          <div class="meta-right">
+            <span id="contextMeter" class="context-meter" title="Conversation size"></span>
+            <span class="shortcut-hint">Enter to send</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside id="historyDrawer" class="drawer" aria-label="Chat history" aria-hidden="true">
+      <div class="drawer-head">
+        <div>
+          <p class="eyebrow">History</p>
+          <h2 class="drawer-title">Your chats</h2>
+        </div>
+        <button id="closeHistoryButton" class="icon-button" type="button" aria-label="Close history">
+          <span data-icon="x"></span>
+        </button>
+      </div>
+      <div class="drawer-actions">
+        <button id="drawerNewChat" class="button button-secondary button-small" type="button">
+          <span data-icon="plus"></span> New chat
+        </button>
+        <button id="clearAllButton" class="button button-ghost button-small" type="button">Clear all</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+      <p class="drawer-foot">Chats are stored in this browser. Nothing is uploaded to Myna.</p>
+    </aside>
+    <div id="drawerScrim" class="drawer-scrim" hidden></div>
+
+    <div id="modalRoot" class="modal-root" hidden></div>
+    <div id="toastRoot" class="toast-root" aria-live="polite"></div>
+
+    <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden />
+    <input id="uploadFileInput" type="file" multiple hidden />
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

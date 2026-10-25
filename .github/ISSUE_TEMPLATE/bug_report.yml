@@ -1,0 +1,103 @@
+name: Bug report
+description: Something is broken or behaves unexpectedly.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing Myna. Do not paste API keys, private page content, cookies, or personal data.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: A short, specific description of the bug.
+      placeholder: Myna clicks the wrong button when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the site type or a minimal example. Redact private URLs.
+      placeholder: |
+        1. Open a page with...
+        2. Ask Myna to...
+        3. See...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Myna version
+      description: Settings → About, or the manifest version.
+      placeholder: 0.2.0
+    validations:
+      required: true
+
+  - type: input
+    id: chrome
+    attributes:
+      label: Chrome version and OS
+      placeholder: Chrome 140 on Windows 11
+    validations:
+      required: true
+
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Provider
+      options:
+        - Anthropic
+        - OpenAI
+        - OpenCode Go
+        - Google Gemini
+        - OpenRouter
+        - Ollama / LM Studio
+        - Other OpenAI-compatible
+        - Not provider-specific
+    validations:
+      required: false
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Permission mode
+      options:
+        - Ask first
+        - Auto-run
+        - Plan first
+        - Read only
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before posting
+      options:
+        - label: I removed API keys, cookies, private page content, and personal data.
+          required: true
+        - label: I checked the existing issues for a duplicate.
+          required: true
+        - label: This is not a security vulnerability. (Use Security → Report a vulnerability for those.)
+          required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console or tool output
+      description: Redact anything private. Screenshots are welcome.
+      render: shell
+    validations:
+      required: false

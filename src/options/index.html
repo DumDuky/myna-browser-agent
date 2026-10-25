@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Myna settings</title>
+    <link rel="icon" href="../assets/icon-32.png" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark" data-icon="bird" aria-hidden="true"></span>
+          <div>
+            <div class="brand-name">Myna</div>
+            <div class="brand-sub">Open browser agent</div>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Settings sections">
+          <button class="nav-item is-active" data-tab="providers" type="button">
+            <span data-icon="key"></span> Providers
+          </button>
+          <button class="nav-item" data-tab="agent" type="button">
+            <span data-icon="sparkles"></span> Agent
+          </button>
+          <button class="nav-item" data-tab="scheduled" type="button">
+            <span data-icon="clock"></span> Scheduled
+          </button>
+          <button class="nav-item" data-tab="mcp" type="button">
+            <span data-icon="server"></span> MCP
+          </button>
+          <button class="nav-item" data-tab="permissions" type="button">
+            <span data-icon="shield"></span> Permissions
+          </button>
+          <button class="nav-item" data-tab="appearance" type="button">
+            <span data-icon="eye"></span> Appearance
+          </button>
+          <button class="nav-item" data-tab="data" type="button">
+            <span data-icon="download"></span> Data
+          </button>
+          <button class="nav-item" data-tab="about" type="button">
+            <span data-icon="info"></span> About
+          </button>
+        </nav>
+
+        <div class="sidebar-foot">
+          <p class="tiny">No account. No backend. Your keys stay in this browser.</p>
+          <button id="openPanelButton" class="button button-secondary button-small" type="button">
+            <span data-icon="external"></span> Open side panel
+          </button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="main-head">
+          <div>
+            <p class="eyebrow" id="sectionEyebrow">Configuration</p>
+            <h1 id="sectionTitle">Providers</h1>
+          </div>
+          <div class="head-actions">
+            <span id="saveState" class="save-state" aria-live="polite"></span>
+            <button id="saveButton" class="button button-primary" type="button">Save changes</button>
+          </div>
+        </header>
+
+        <section id="panel-providers" class="panel is-active" aria-labelledby="sectionTitle">
+          <div class="section-intro">
+            <p>
+              Myna talks directly to the model provider you choose. Add one profile per
+              provider or model. Anything OpenAI-compatible works, including local servers.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Quick presets</h2>
+                <p>One click fills the editor. Nothing is saved until you press Save profile.</p>
+              </div>
+            </div>
+            <div id="providerPresetGrid" class="preset-grid"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Active profile</h2>
+                <p>Used for new chats and as the default everywhere.</p>
+              </div>
+              <button id="addProfileButton" class="button button-secondary button-small" type="button">
+                <span data-icon="plus"></span> Add profile
+              </button>
+            </div>
+            <div id="profileList" class="profile-list"></div>
+          </div>
+
+          <div id="profileEditor" class="card" hidden>
+            <div class="card-head">
+              <div>
+                <h2 id="editorTitle">New profile</h2>
+                <p>Start from a preset, then adjust anything.</p>
+              </div>
+              <button id="cancelProfileButton" class="button button-ghost button-small" type="button">Cancel</button>
+            </div>
+
+            <form id="profileForm" class="form-grid">
+              <div class="form-row span-2">
+                <label for="presetSelect">Preset</label>
+                <select id="presetSelect"></select>
+                <p class="form-hint" id="presetHint"></p>
+              </div>
+
+              <div class="form-row">
+                <label for="profileName">Profile name</label>
+                <input id="profileName" type="text" required placeholder="My Claude" />
+              </div>
+
+              <div class="form-row">
+                <label for="profileType">API shape</label>
+                <select id="profileType">
+                  <option value="anthropic">Anthropic Messages</option>
+                  <option value="openai">OpenAI Chat Completions</option>
+                </select>
+              </div>
+
+              <div class="form-row span-2">
+                <label for="baseUrl">Base URL</label>
+                <input id="baseUrl" type="url" required placeholder="https://api.anthropic.com" />
+                <p class="form-hint">
+                  Use the API root, not the full endpoint. Myna appends
+                  <code>/v1/messages</code> or <code>/chat/completions</code>.
+                </p>
+              </div>
+
+              <div class="form-row">
+                <label for="modelPresetSelect">Common models</label>
+                <select id="modelPresetSelect">
+                  <option value="">Choose a preset…</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label for="modelInput">Model</label>
+                <input id="modelInput" type="text" required placeholder="claude-sonnet-4-5" />
+              </div>
+
+              <div class="form-row">
+                <label for="authStyle">Authentication</label>
+                <select id="authStyle">
+                  <option value="bearer">Authorization: Bearer</option>
+                  <option value="x-api-key">x-api-key</option>
+                  <option value="api-key">api-key</option>
+                  <option value="none">No authentication</option>
+                </select>
+              </div>
+
+              <div class="form-row span-2">
+                <label for="apiKeyInput">API key</label>
+                <div class="input-with-actions">
+                  <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="Paste a key, or leave blank for local servers" />
+                  <button id="toggleKeyButton" class="button button-ghost button-small" type="button">Show</button>
+                </div>
+                <label class="check-line">
+                  <input id="sessionOnlyKey" type="checkbox" />
+                  <span>Keep this key only until Chrome closes (session storage)</span>
+                </label>
+              </div>
+
+              <div class="form-row span-2">
+                <label for="headersInput">Extra headers (JSON, optional)</label>
+                <textarea id="headersInput" rows="2" spellcheck="false" placeholder='{"HTTP-Referer": "https://example.com"}'></textarea>
+              </div>
+
+              <div class="form-row">
+                <label for="maxTokensInput">Max output tokens</label>
+                <input id="maxTokensInput" type="number" min="128" max="32000" step="128" />
+              </div>
+
+              <div class="form-row">
+                <label for="contextWindowInput">Context window</label>
+                <input id="contextWindowInput" type="number" min="8000" max="2000000" step="1000" />
+              </div>
+
+              <div class="form-row">
+                <label for="temperatureInput">Temperature override</label>
+                <input id="temperatureInput" type="number" min="0" max="2" step="0.1" placeholder="Use global setting" />
+              </div>
+
+              <div class="form-row">
+                <label for="queryInput">Extra query string (optional)</label>
+                <input id="queryInput" type="text" placeholder="api-version=2024-10-21" />
+              </div>
+
+              <div class="form-row span-2">
+                <label class="check-line">
+                  <input id="supportsImages" type="checkbox" />
+                  <span>This model accepts images (needed for screenshots)</span>
+                </label>
+                <label class="check-line">
+                  <input id="includeCacheControl" type="checkbox" />
+                  <span>Use Anthropic prompt caching headers</span>
+                </label>
+              </div>
+
+              <div class="form-actions span-2">
+                <button class="button button-primary" type="submit">Save profile</button>
+                <button id="testProfileButton" class="button button-secondary" type="button">Test connection</button>
+                <button id="fetchModelsButton" class="button button-ghost" type="button">Fetch models</button>
+                <button id="deleteProfileButton" class="button button-danger" type="button" hidden>Delete</button>
+                <span id="profileTestResult" class="form-hint" aria-live="polite"></span>
+              </div>
+            </form>
+          </div>
+
+          <div class="card subtle">
+            <h2>Supported out of the box</h2>
+            <div class="provider-cloud">
+              <span>Anthropic</span><span>OpenAI</span><span>OpenCode Go</span>
+              <span>OpenCode Go (Anthropic)</span><span>Google Gemini</span>
+              <span>OpenRouter</span><span>Groq</span><span>DeepSeek</span>
+              <span>Mistral</span><span>xAI</span><span>Together</span>
+              <span>Fireworks</span><span>Ollama</span><span>LM Studio</span>
+              <span>Azure OpenAI</span><span>Any compatible gateway</span>
+            </div>
+            <p class="form-hint">
+              Model IDs change often. If a preset is out of date, type the current ID from
+              your provider's docs.
+            </p>
+          </div>
+        </section>
+
+        <section id="panel-agent" class="panel" hidden>
+          <div class="section-intro">
+            <p>How much rope Myna gets, how hard it tries, and what it sends to the model.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Behaviour presets</h2>
+                <p>Quick starting points. You can still change every value below.</p>
+              </div>
+            </div>
+            <div id="agentPresetGrid" class="preset-grid"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h2>Loop and limits</h2></div>
+            <div class="form-grid">
+              <div class="form-row">
+                <label for="maxSteps">Max tool rounds per message</label>
+                <input id="maxSteps" type="number" min="1" max="50" />
+                <p class="form-hint">Higher means longer autonomous tasks.</p>
+              </div>
+              <div class="form-row">
+                <label for="temperature">Temperature</label>
+                <input id="temperature" type="number" min="0" max="2" step="0.1" />
+              </div>
+              <div class="form-row">
+                <label for="maxOutputTokens">Default max output tokens</label>
+                <input id="maxOutputTokens" type="number" min="128" max="32000" step="128" />
+              </div>
+              <div class="form-row">
+                <label for="maxHistoryMessages">Max history units sent</label>
+                <input id="maxHistoryMessages" type="number" min="8" max="400" />
+              </div>
+              <div class="form-row">
+                <label for="maxContextChars">Max context characters</label>
+                <input id="maxContextChars" type="number" min="8000" max="1000000" step="1000" />
+              </div>
+              <div class="form-row">
+                <label for="keepScreenshots">Recent screenshots to keep</label>
+                <input id="keepScreenshots" type="number" min="0" max="10" />
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h2>Browser control</h2></div>
+            <div class="form-grid">
+              <div class="form-row">
+                <label for="screenshotMaxWidth">Screenshot max width (px)</label>
+                <input id="screenshotMaxWidth" type="number" min="480" max="2400" step="80" />
+              </div>
+              <div class="form-row">
+                <label for="screenshotScale">Screenshot scale</label>
+                <input id="screenshotScale" type="number" min="0.25" max="1" step="0.05" />
+              </div>
+              <div class="form-row">
+                <label for="newTabUrl">New-tab start page</label>
+                <input id="newTabUrl" type="url" placeholder="https://www.google.com" />
+                <p class="form-hint">Used when Myna opens a tab on a Chrome-protected page.</p>
+              </div>
+            </div>
+            <div class="check-stack">
+              <label class="check-line">
+                <input id="openNewTabOnRestricted" type="checkbox" />
+                <span><strong>Open a new tab on protected pages</strong> — when Chrome blocks the current page, send the prompt in a fresh tab instead of stopping.</span>
+              </label>
+              <label class="check-line">
+                <input id="trustedInput" type="checkbox" />
+                <span><strong>Trusted browser control</strong> — use Chrome's debugger for real clicks, keys, screenshots, console, and network data. Requires an optional permission.</span>
+              </label>
+              <label class="check-line">
+                <input id="animations" type="checkbox" />
+                <span><strong>On-page animations</strong> — animated cursor, click ripples, typing caret, keycaps, and scroll hints. Best effort; never blocks a tool.</span>
+              </label>
+              <label class="check-line">
+                <input id="groupTabs" type="checkbox" />
+                <span><strong>Group agent tabs</strong> — put pages Myna works on in a yellow tab group.</span>
+              </label>
+              <label class="check-line">
+                <input id="includePageContext" type="checkbox" />
+                <span>Include the current tab's title and URL in every turn.</span>
+              </label>
+              <label class="check-line">
+                <input id="includeSelectedText" type="checkbox" />
+                <span>Include selected text from the page.</span>
+              </label>
+              <label class="check-line">
+                <input id="confirmDomainChanges" type="checkbox" />
+                <span>Ask before crossing to a different domain.</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h2>Conversation</h2></div>
+            <div class="check-stack">
+              <label class="check-line">
+                <input id="enterToSend" type="checkbox" />
+                <span>Enter sends; Shift+Enter makes a new line.</span>
+              </label>
+              <label class="check-line">
+                <input id="showReasoning" type="checkbox" />
+                <span>Show model reasoning when the provider sends it.</span>
+              </label>
+              <label class="check-line">
+                <input id="streamResponses" type="checkbox" />
+                <span>Stream responses (turn off for gateways that dislike SSE).</span>
+              </label>
+              <label class="check-line">
+                <input id="javascriptTool" type="checkbox" />
+                <span><strong>Enable javascript_tool</strong> — lets the model run code in the page. Powerful, risky, and off by default.</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Skills</h2>
+                <p>Reusable instructions appended to the system prompt. Off by default.</p>
+              </div>
+            </div>
+            <div id="skillsList" class="skills-list"></div>
+            <form id="skillForm" class="form-grid" style="margin-top:12px">
+              <div class="form-row">
+                <label for="skillName">Name</label>
+                <input id="skillName" type="text" placeholder="Price checker" required />
+              </div>
+              <div class="form-row">
+                <label for="skillDescription">Description</label>
+                <input id="skillDescription" type="text" placeholder="Check prices before recommending." />
+              </div>
+              <div class="form-row span-2">
+                <label for="skillInstructions">Instructions</label>
+                <textarea id="skillInstructions" rows="3" placeholder="Always cite the exact price, currency, and date." required></textarea>
+              </div>
+              <div class="form-actions span-2">
+                <button class="button button-secondary button-small" type="submit">Add skill</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Custom instructions</h2>
+                <p>Appended to the system prompt for every chat. Keep it short.</p>
+              </div>
+            </div>
+            <textarea id="customInstructions" rows="6" placeholder="Always cite the exact price and date. Prefer primary sources. Ask before submitting forms."></textarea>
+          </div>
+        </section>
+
+        <section id="panel-mcp" class="panel" hidden>
+          <div class="section-intro">
+            <p>
+              Connect remote MCP servers over Streamable HTTP. Myna lists their tools and
+              asks before each call unless you are in Auto-run. Stdio servers require a
+              native host and are not supported.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Add MCP server</h2>
+                <p>Example: <code>https://mcp.example.com/mcp</code></p>
+              </div>
+            </div>
+            <form id="mcpForm" class="form-grid">
+              <div class="form-row">
+                <label for="mcpName">Name</label>
+                <input id="mcpName" type="text" placeholder="My tools" required />
+              </div>
+              <div class="form-row">
+                <label for="mcpUrl">Streamable HTTP URL</label>
+                <input id="mcpUrl" type="url" placeholder="https://…/mcp" required />
+              </div>
+              <div class="form-row span-2">
+                <label for="mcpHeaders">Headers (JSON, optional)</label>
+                <textarea id="mcpHeaders" rows="2" placeholder='{"Authorization": "Bearer …"}'></textarea>
+              </div>
+              <div class="form-actions span-2">
+                <button class="button button-primary" type="submit">Add server</button>
+                <span id="mcpFormNote" class="form-hint"></span>
+              </div>
+            </form>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Servers</h2>
+                <p>Tools are fetched at the start of each chat.</p>
+              </div>
+            </div>
+            <div id="mcpList" class="task-list"></div>
+          </div>
+        </section>
+
+        <section id="panel-scheduled" class="panel" hidden>
+          <div class="section-intro">
+            <p>
+              Run a prompt on a schedule in a fresh window. The task uses the active
+              provider and auto-run mode. Sensitive-site prompts are denied because no
+              side panel is open.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>New scheduled task</h2>
+                <p>Daily or weekly. Chrome must be running for alarms to fire.</p>
+              </div>
+            </div>
+            <form id="taskForm" class="form-grid">
+              <div class="form-row">
+                <label for="taskName">Name</label>
+                <input id="taskName" type="text" placeholder="Morning digest" required />
+              </div>
+              <div class="form-row">
+                <label for="taskUrl">Start URL</label>
+                <input id="taskUrl" type="url" placeholder="https://example.com" />
+              </div>
+              <div class="form-row span-2">
+                <label for="taskPrompt">Prompt</label>
+                <textarea id="taskPrompt" rows="4" placeholder="Summarize the top stories on this page and save the result." required></textarea>
+              </div>
+              <div class="form-row">
+                <label for="taskFrequency">Frequency</label>
+                <select id="taskFrequency">
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="manual">Manual only</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="taskTime">Time</label>
+                <input id="taskTime" type="time" value="09:00" />
+              </div>
+              <div class="form-row" id="taskDayRow" hidden>
+                <label for="taskDay">Day</label>
+                <select id="taskDay">
+                  <option value="0">Sunday</option>
+                  <option value="1">Monday</option>
+                  <option value="2">Tuesday</option>
+                  <option value="3">Wednesday</option>
+                  <option value="4">Thursday</option>
+                  <option value="5">Friday</option>
+                  <option value="6">Saturday</option>
+                </select>
+              </div>
+              <div class="form-actions span-2">
+                <button class="button button-primary" type="submit">Add task</button>
+                <span id="taskFormNote" class="form-hint"></span>
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Tasks</h2>
+                <p>Run now opens a visible Myna window. Results are saved locally.</p>
+              </div>
+              <button id="reconcileTasksButton" class="button button-secondary button-small" type="button">Reschedule all</button>
+            </div>
+            <div id="taskList" class="task-list"></div>
+          </div>
+        </section>
+
+        <section id="panel-permissions" class="panel" hidden>
+          <div class="section-intro">
+            <p>Myna asks by default. You can loosen or tighten this per site, and switch modes inside the side panel.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Permission presets</h2>
+                <p>Quick starting points for the default mode. Your site rules are kept.</p>
+              </div>
+            </div>
+            <div id="permissionPresetGrid" class="preset-grid"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h2>Default mode</h2></div>
+            <div class="form-row narrow">
+              <select id="defaultMode">
+                <option value="ask">Ask first</option>
+                <option value="auto">Auto-run</option>
+                <option value="plan">Plan first</option>
+                <option value="readonly">Read only</option>
+              </select>
+              <p class="form-hint" id="modeHint"></p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Site rules</h2>
+                <p>Exact hosts or parent domains. A rule for <code>example.com</code> covers <code>www.example.com</code>.</p>
+              </div>
+            </div>
+            <div class="rule-form">
+              <input id="ruleHost" type="text" placeholder="example.com" />
+              <select id="ruleRead">
+                <option value="ask">Read: ask</option>
+                <option value="allow">Read: allow</option>
+                <option value="block">Read: block</option>
+              </select>
+              <select id="ruleAct">
+                <option value="ask">Act: ask</option>
+                <option value="allow">Act: allow</option>
+                <option value="block">Act: block</option>
+              </select>
+              <button id="addRuleButton" class="button button-secondary button-small" type="button">Add rule</button>
+            </div>
+            <div id="rulesList" class="rules-list"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Enhanced access</h2>
+                <p>Trusted input, full screenshots, console logs, and network metadata use Chrome's debugger permission.</p>
+              </div>
+              <span id="debuggerBadge" class="badge">Checking…</span>
+            </div>
+            <div class="form-actions">
+              <button id="requestDebuggerButton" class="button button-secondary" type="button">Grant debugger permission</button>
+              <button id="revokeDebuggerButton" class="button button-ghost" type="button">Revoke</button>
+            </div>
+            <p class="form-hint">
+              Without it, Myna still works using DOM events and visible-tab screenshots.
+              Chrome shows a small debugging banner while the permission is active.
+            </p>
+          </div>
+
+          <div class="card subtle">
+            <h2>Sensitive sites</h2>
+            <p class="form-hint">
+              Banking, payment, brokerage, and government hosts always require a fresh
+              approval for actions, even in Auto-run. Myna also refuses to type passwords,
+              one-time codes, and card numbers.
+            </p>
+          </div>
+        </section>
+
+        <section id="panel-appearance" class="panel" hidden>
+          <div class="section-intro">
+            <p>Myna follows your system by default. These settings apply to the side panel and this page.</p>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>Appearance presets</h2>
+                <p>Theme and spacing in one click. Every value stays editable below.</p>
+              </div>
+            </div>
+            <div id="appearancePresetGrid" class="preset-grid"></div>
+          </div>
+          <div class="card">
+            <div class="form-grid">
+              <div class="form-row">
+                <label for="theme">Theme</label>
+                <select id="theme">
+                  <option value="system">Follow system</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="density">Density</label>
+                <select id="density">
+                  <option value="comfortable">Comfortable</option>
+                  <option value="compact">Compact</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="panel-data" class="panel" hidden>
+          <div class="section-intro">
+            <p>Everything is local. Export a JSON backup before clearing anything.</p>
+          </div>
+          <div class="card">
+            <div class="card-head"><h2>Storage</h2></div>
+            <div id="storageStats" class="stats"></div>
+            <div class="form-actions">
+              <button id="exportButton" class="button button-secondary" type="button">Export chats & settings</button>
+              <button id="importButton" class="button button-ghost" type="button">Import backup</button>
+              <input id="importInput" type="file" accept="application/json" hidden />
+            </div>
+          </div>
+          <div class="card danger-card">
+            <div class="card-head"><h2>Clear</h2></div>
+            <div class="form-actions">
+              <button id="clearChatsButton" class="button button-danger" type="button">Delete all chats</button>
+              <button id="clearKeysButton" class="button button-danger" type="button">Delete all API keys</button>
+              <button id="resetButton" class="button button-danger" type="button">Reset everything</button>
+            </div>
+            <p class="form-hint">Reset also removes profiles, skills, rules, and custom instructions.</p>
+          </div>
+        </section>
+
+        <section id="panel-about" class="panel" hidden>
+          <div class="about-hero card">
+            <span class="about-mark" data-icon="bird" aria-hidden="true"></span>
+            <div>
+              <p class="eyebrow">Myna <span id="versionLabel"></span></p>
+              <h2>An open-source browser agent with your own keys.</h2>
+              <p>
+                Myna is an independent, clean-room implementation inspired by the
+                convenience of AI side panels. It is not affiliated with or endorsed by
+                Anthropic. No analytics, no relay server, no account.
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <h2>What leaves your browser?</h2>
+            <p class="body-copy">
+              Only the conversation and page context you send to your chosen provider.
+              Myna has no backend. API keys are stored in Chrome local storage unless you
+              choose session-only keys. Chats are stored in Chrome local storage.
+            </p>
+          </div>
+          <div class="card">
+            <h2>Limitations</h2>
+            <p class="body-copy">
+              Myna is a local BYOK browser agent, not a full clone of Claude in Chrome
+              or Claude Code. The complete list lives in
+              <code>docs/limitations.md</code>.
+            </p>
+            <ul class="limit-list">
+              <li>Remote MCP over Streamable HTTP only; no stdio, legacy SSE, or OAuth.</li>
+              <li>No Claude Desktop pairing, native messaging, relayed inference, or Claude Code integration.</li>
+              <li>Scheduled tasks need Chrome running; file uploads use synthetic DataTransfer; GIFs cap at 40 frames.</li>
+              <li>No licensed search index, memory, projects, or multi-agent orchestration.</li>
+              <li>No cross-origin iframe or closed-shadow-root control.</li>
+            </ul>
+            <div class="form-actions">
+              <button id="openLimitsButton" class="button button-secondary" type="button">Read all limitations</button>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Licence</h2>
+            <p class="body-copy">MIT. Fork it, audit it, ship it.</p>
+            <div class="form-actions">
+              <button id="openReadmeButton" class="button button-secondary" type="button">Open README</button>
+              <button id="openReButton" class="button button-ghost" type="button">Reverse-engineering notes</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toastRoot" class="toast-root" aria-live="polite"></div>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

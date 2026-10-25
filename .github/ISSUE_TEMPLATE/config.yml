@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/DumDuky/myna-browser-agent/security/advisories/new
+    about: Report vulnerabilities privately. Do not open a public issue.
+  - name: Documentation and limitations
+    url: https://github.com/DumDuky/myna-browser-agent/tree/main/docs
+    about: Read the architecture, tools, and limitations first.
+  - name: Questions and ideas
+    url: https://github.com/DumDuky/myna-browser-agent/discussions
+    about: Ask a question or share a workflow.

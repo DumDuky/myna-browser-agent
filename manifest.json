@@ -1,0 +1,74 @@
+{
+  "manifest_version": 3,
+  "name": "Myna",
+  "short_name": "Myna",
+  "version": "0.2.0",
+  "description": "An open-source browser agent with your own API keys. Chat with the web, automate tabs, and keep your data yours.",
+  "homepage_url": "https://github.com/DumDuky/myna-browser-agent",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "src/assets/icon-16.png",
+    "32": "src/assets/icon-32.png",
+    "48": "src/assets/icon-48.png",
+    "128": "src/assets/icon-128.png"
+  },
+  "action": {
+    "default_title": "Open Myna",
+    "default_icon": {
+      "16": "src/assets/icon-16.png",
+      "32": "src/assets/icon-32.png",
+      "48": "src/assets/icon-48.png"
+    }
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/index.html"
+  },
+  "options_page": "src/options/index.html",
+  "commands": {
+    "toggle-side-panel": {
+      "suggested_key": {
+        "default": "Ctrl+E",
+        "mac": "Command+E"
+      },
+      "description": "Toggle Myna side panel"
+    }
+  },
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabGroups",
+    "tabs",
+    "webNavigation",
+    "contextMenus",
+    "alarms",
+    "notifications",
+    "downloads",
+    "unlimitedStorage"
+  ],
+  "optional_permissions": [
+    "debugger"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https: http:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; media-src 'self' data: blob:;"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/page/page-agent.js",
+        "src/assets/icon-128.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

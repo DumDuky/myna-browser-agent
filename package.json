@@ -1,0 +1,36 @@
+{
+  "name": "myna-browser-agent",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Myna — an open-source Chrome browser agent with bring-your-own-key providers.",
+  "license": "MIT",
+  "author": "Myna contributors",
+  "homepage": "https://github.com/DumDuky/myna-browser-agent#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DumDuky/myna-browser-agent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DumDuky/myna-browser-agent/issues"
+  },
+  "keywords": [
+    "chrome-extension",
+    "browser-agent",
+    "ai-agent",
+    "llm",
+    "byok",
+    "manifest-v3",
+    "mcp",
+    "automation",
+    "privacy"
+  ],
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "test": "node --test tests/*.test.js",
+    "verify": "npm test && npm run check"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

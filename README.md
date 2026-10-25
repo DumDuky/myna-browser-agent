@@ -1,21 +1,22 @@
 <p align="center">
-  <img src="src/assets/icon-128.png" width="104" alt="Myna" />
+  <img src="src/assets/icon-128.png" width="96" alt="Myna" />
 </p>
 
 <h1 align="center">Myna</h1>
 
 <p align="center">
-  <strong>An open-source Chrome browser agent with your own API keys.</strong><br />
-  Read the page. Click, type, fill, scroll, open tabs, and research the web — without a Myna account or backend.
+  <strong>The open-source alternative to Claude in Chrome.</strong><br />
+  Bring your own model. Let an AI agent read, click, fill, and research across your tabs.<br />
+  No Myna account. No backend. No telemetry.
 </p>
 
 <p align="center">
   <a href="https://github.com/DumDuky/myna-browser-agent/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/DumDuky/myna-browser-agent?color=1f6f68" /></a>
   <a href="https://github.com/DumDuky/myna-browser-agent/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/DumDuky/myna-browser-agent/actions/workflows/ci.yml/badge.svg" /></a>
   <img alt="Chrome 116+" src="https://img.shields.io/badge/Chrome-116%2B-df9a31" />
-  <img alt="Manifest V3" src="https://img.shields.io/badge/Manifest-V3-1f6f68" />
   <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/github/license/DumDuky/myna-browser-agent?color=1f6f68" /></a>
   <img alt="No telemetry" src="https://img.shields.io/badge/telemetry-none-b4473c" />
+  <a href="CONTRIBUTING.md"><img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-1f6f68" /></a>
 </p>
 
 <p align="center">
@@ -23,52 +24,86 @@
   ·
   <a href="#install">Install</a>
   ·
-  <a href="#features">Features</a>
+  <a href="#what-myna-can-do">Features</a>
+  ·
+  <a href="#screenshots">Screenshots</a>
   ·
   <a href="#providers">Providers</a>
   ·
-  <a href="docs/limitations.md">Limitations</a>
+  <a href="#faq">FAQ</a>
   ·
-  <a href="CONTRIBUTING.md">Contributing</a>
+  <a href="docs/limitations.md">Limitations</a>
 </p>
 
-![Myna chat side panel](docs/screenshots/chat.png)
+![Myna running in a Chrome side panel on a Wikipedia page](docs/screenshots/hero.png)
 
-Myna is an independent, clean-room Chrome extension inspired by the convenience of AI side panels such as Claude in Chrome. It is not affiliated with Anthropic. It talks directly to the model API you choose, keeps its state in your browser, and ships as readable source with no build step.
+Myna puts an AI browser agent in Chrome's side panel. It uses the model provider you choose, talks to that provider directly, and stores your chats in Chrome. You can run it with Anthropic, OpenAI, OpenCode Go, Gemini, a local Ollama model, or any OpenAI-compatible gateway.
 
-> **Status: beta.** The core agent works and is tested, but interfaces and provider presets can change. Read [limitations](docs/limitations.md) before trusting it with anything irreversible.
+Myna is an independent, clean-room project. It is not affiliated with or endorsed by Anthropic. Claude in Chrome is a product of Anthropic.
+
+> **Beta:** the core agent works and has tests, but interfaces and model presets can change. Read [limitations](docs/limitations.md) before you trust it with anything irreversible.
+
+## Start here
+
+- **New to Myna?** [Download the latest release](https://github.com/DumDuky/myna-browser-agent/releases/latest), then follow [Install](#install).
+- **Want to read the code?** The extension runs directly from source. There is no build step and no bundled runtime.
+- **Want to contribute?** Read [CONTRIBUTING.md](CONTRIBUTING.md). Provider presets, docs, tests, and accessibility fixes are all useful.
+- **Need help?** See [SUPPORT.md](SUPPORT.md) or open a [discussion](https://github.com/DumDuky/myna-browser-agent/discussions).
 
 ## Why Myna
 
-- **Your key, your provider.** No Myna account, relay, or subscription. Use a frontier model, a cheap coding model, or a local Ollama model.
-- **Local-first.** Chats, settings, rules, and keys live in Chrome storage. There is no Myna server and no telemetry.
-- **Auditable.** No bundler, no minified code, no remote scripts. The whole extension is plain HTML, CSS, and ES modules.
-- **One browser-wide chat.** Switch tabs and Myna follows the active tab; the conversation stays put. It can also list and work across tabs in every normal window.
-- **Permission-first.** Ask first, auto-run, plan-first, or read-only. Sensitive sites prompt even in Auto-run, and password/card fields are refused.
-- **Extensible.** Add remote MCP tools, scheduled runs, skills, and your own OpenAI-compatible gateway.
+- **Use the model you already pay for.** Myna works with hosted APIs and local models. You control the provider, model, key, and spending limit.
+- **Keep the conversation in one place.** One chat follows the active tab. Switch tabs and Myna updates the page context without starting over.
+- **Approve what matters.** Choose Ask first, Auto-run, Plan first, or Read only. Add site rules. Sensitive sites still ask in Auto-run.
+- **Audit the whole extension.** Every line is plain HTML, CSS, or ES modules. No minified bundle, no remote script, no hidden service.
+- **Extend it without a vendor roadmap.** Add remote MCP tools, reusable skills, scheduled runs, or a custom OpenAI-compatible gateway.
+- **Keep your data local.** Chats, settings, rules, and keys live in Chrome storage. Myna runs no server and collects no analytics.
 
-## Features
+### How Myna is different
 
-| | |
+| | Myna | A typical hosted browser assistant |
+| --- | --- | --- |
+| Account | Not required | Usually required |
+| Model | Any provider you configure | Selected by the vendor |
+| Data path | Browser to your provider | Through the vendor service |
+| Source code | MIT, readable | Closed |
+| Chat history | Local Chrome storage | Usually account-based |
+| Extensibility | MCP, custom gateways, skills | Vendor roadmap |
+
+This table describes hosted browser assistants in general. Check each product's current terms before comparing details.
+
+## What Myna can do
+
+| Area | What you get |
 | --- | --- |
-| **Browser tools** | Accessibility tree with stable refs, fuzzy find, article text, click/type/key/scroll/hover/drag, screenshots, form filling, file upload |
-| **Tabs** | List tabs across windows, create, close, group, navigate, resize |
-| **One global chat** | Follows the active tab without starting a new conversation per tab |
-| **Providers** | Anthropic Messages and OpenAI Chat Completions, plus 15 presets |
-| **Presets** | Provider, common model, behaviour, permission, and appearance presets |
-| **Permissions** | Ask, Auto-run, Plan first, Read only; per-site rules; sensitive-host checks |
-| **Agent motion** | Cursor, click ripples, typing caret, keycaps, scroll hints, element flashes |
-| **MCP** | Remote Streamable HTTP servers, tools imported as `mcp__server__tool` |
-| **Schedules** | Daily or weekly prompt runs in a visible window, with notifications |
-| **Extras** | GIF recording/export, direct web fetch, Bing RSS search, skills editor |
-| **Debugger (optional)** | Trusted input, full screenshots, console logs, network metadata |
-| **Privacy** | No backend, no telemetry, session-only keys supported |
+| **Reading** | Accessibility tree with stable element refs, fuzzy find, readable page text, console logs, network metadata |
+| **Acting** | Click, type, press keys, scroll, hover, drag, fill forms, upload files, take screenshots |
+| **Tabs** | List tabs in every window, create, close, group, navigate, resize |
+| **Research** | Direct URL fetch, Bing RSS search, multi-tab comparison, page summaries |
+| **Workflow** | Plans, permission cards, tool progress, skills, scheduled tasks, GIF export |
+| **Models** | Anthropic Messages, OpenAI Chat Completions, 16 presets, local servers, custom gateways |
+| **Safety** | Sensitive-site checks, domain prompts, password and card-field refusal, prompt-injection guidance |
+| **Privacy** | Local history, session-only keys, no telemetry, no Myna account |
 
-### Screenshots
+## Screenshots
+
+### One chat across your tabs
+
+![Myna side panel on a Wikipedia page](docs/screenshots/chat.png)
+
+### Pick a provider and model
+
+![Provider presets in Myna settings](docs/screenshots/providers.png)
+
+### Tune the agent, permissions, and theme
 
 | Agent presets | Permission presets | Appearance presets |
 | --- | --- | --- |
 | ![Agent presets](docs/screenshots/agent-presets.png) | ![Permission presets](docs/screenshots/permissions.png) | ![Appearance presets](docs/screenshots/appearance.png) |
+
+### Add remote MCP tools
+
+![MCP settings](docs/screenshots/mcp.png)
 
 ## Install
 
@@ -88,13 +123,13 @@ git clone https://github.com/DumDuky/myna-browser-agent.git
 cd myna-browser-agent
 ```
 
-Then load the repository folder unpacked. There is no build step.
+Load the repository folder unpacked in `chrome://extensions`. There is no build step.
 
-Chrome, Edge, Brave, and other Chromium browsers with the Side Panel API (Chrome 116+) are supported. Myna cannot read `chrome://`, the Chrome Web Store, the PDF viewer, or other protected pages. With **Open a new tab on protected pages** enabled, it can open a normal tab and work there instead.
+Chrome, Edge, Brave, and other Chromium browsers with the Side Panel API work. Chrome 116 or newer is required. Myna cannot read `chrome://`, the Chrome Web Store, the PDF viewer, or other protected pages. With **Open a new tab on protected pages** enabled, it can open a normal tab and work there instead.
 
 ## Connect a model
 
-Open Settings and pick a provider preset, paste a key, and press **Save & start**.
+Open Settings, pick a provider preset, paste a key, and press **Save & start**.
 
 | Provider | API shape | Example base URL | Notes |
 | --- | --- | --- | --- |
@@ -110,12 +145,12 @@ Open Settings and pick a provider preset, paste a key, and press **Save & start*
 | xAI | OpenAI-compatible | `https://api.x.ai/v1` | |
 | Together | OpenAI-compatible | `https://api.together.xyz/v1` | |
 | Fireworks | OpenAI-compatible | `https://api.fireworks.ai/inference/v1` | |
-| Azure OpenAI | OpenAI-compatible | `https://RESOURCE.openai.azure.com/openai/deployments/DEPLOYMENT` | Add `api-version=…` in the query field |
+| Azure OpenAI | OpenAI-compatible | `https://RESOURCE.openai.azure.com/openai/deployments/DEPLOYMENT` | Add `api-version=...` in the query field |
 | Ollama | OpenAI-compatible | `http://localhost:11434/v1` | No key; pull a tool-capable model |
 | LM Studio | OpenAI-compatible | `http://localhost:1234/v1` | No key; enable the local server |
 | Custom | OpenAI-compatible | anything | Gateways, proxies, self-hosted |
 
-The model must support **tool calling** for browser actions. Text-only models can chat and summarize, but cannot click or type. Model IDs move fast; every field is editable. See [docs/providers.md](docs/providers.md) for wire-format details.
+The model needs **tool calling** for browser actions. Text-only models can chat and summarize, but they cannot click or type. Model IDs move fast, so every field is editable. See [docs/providers.md](docs/providers.md) for wire-format details.
 
 ### OpenCode Go
 
@@ -123,15 +158,16 @@ The **OpenCode Go** preset uses the OpenAI-compatible endpoint and defaults to `
 
 ## Using Myna
 
-Type a request in the side panel. Myna sees the active tab, can list every tab in the browser, and can act once you grant permission. One chat is global to the browser: switching tabs moves the page context, not the conversation. Click the context bar to re-sync it with the active tab.
+Type a request in the side panel. Myna sees the active tab, can list every tab in the browser, and can act once you grant permission. One chat is global to the browser. Switching tabs moves the page context, not the conversation. Click the context bar to re-sync it with the active tab.
 
-Examples:
+Try:
 
-- “Summarize this page and list the decisions I need to make.”
-- “Find the pricing table and compare the middle two plans.”
-- “Fill in this form with the details below, but don't submit it.”
-- “Open the docs in a new tab and find the authentication section.”
-- “Read the console and tell me why the save button fails.”
+- "Summarize this page and list the decisions I need to make."
+- "Find the pricing table and compare the middle two plans."
+- "Fill in this form with the details below, but don't submit it."
+- "Open the docs in a new tab and find the authentication section."
+- "Read the console and tell me why the save button fails."
+- "Compare the top three results and make a recommendation."
 
 ### Modes
 
@@ -139,46 +175,55 @@ Examples:
 | --- | --- |
 | **Ask first** | Prompts before reading a new site or taking an action. |
 | **Auto-run** | Acts without prompts on approved sites. Sensitive sites and new domains still ask. |
-| **Plan first** | Proposes a plan and domains. You approve; then it works autonomously on those domains. |
-| **Read only** | Can inspect pages but cannot click, type, navigate, fill forms, or change tabs. |
+| **Plan first** | Proposes a plan and domains. You approve, then it works autonomously on those domains. |
+| **Read only** | Inspects pages but cannot click, type, navigate, fill forms, or change tabs. |
 
 ### Protected pages
 
-Chrome blocks extensions on `chrome://`, the Web Store, the PDF viewer, and similar pages. On one of those, the side panel offers **Open a normal tab**. With **Open a new tab on protected pages** enabled (Settings → Agent), sending a prompt does it automatically: Myna opens your configured start page, attaches to it, and runs the request there. The protected page itself is never read.
+Chrome blocks extensions on `chrome://`, the Web Store, the PDF viewer, and similar pages. On one of those, the side panel offers **Open a normal tab**. With **Open a new tab on protected pages** enabled in Settings, sending a prompt does it automatically. Myna opens your configured start page, attaches to it, and runs the request there. The protected page itself is never read.
 
 ### MCP servers
 
-Settings → MCP connects remote **Streamable HTTP** MCP servers. Add a name, URL, and optional headers. Myna calls `tools/list` at the start of each chat and exposes tools as `mcp__<server>__<tool>`. Stdio servers, legacy HTTP+SSE, OAuth, and a resources/prompts UI are not supported.
+Settings, then MCP, connects remote **Streamable HTTP** MCP servers. Add a name, URL, and optional headers. Myna calls `tools/list` at the start of each chat and exposes tools as `mcp__<server>__<tool>`. Stdio servers, legacy HTTP+SSE, OAuth, and a resources/prompts UI are not supported.
 
 ### Scheduled tasks
 
-Settings → Scheduled adds daily or weekly runs. Chrome must be running. Each run opens a visible Myna window, uses Auto-run, records the result, and sends a notification. Sensitive-site prompts are denied because no side panel is open.
+Settings, then Scheduled, adds daily or weekly runs. Chrome must be running. Each run opens a visible Myna window, uses Auto-run, records the result, and sends a notification. Sensitive-site prompts are denied because no side panel is open.
 
 ### Presets and motion
 
-Settings → Providers has one-click provider presets and a common-model picker. Settings → Agent has four behaviour presets — **Cautious**, **Balanced**, **Agent**, and **Planner**. Settings → Permissions has **Locked down**, **Ask first**, **Plan first**, and **Autopilot**, which leave per-site rules untouched. Settings → Appearance has **Follow system**, **Paper**, **Midnight**, and **Compact**.
+Settings, then Providers has provider presets and a common-model picker. Settings, then Agent has **Cautious**, **Balanced**, **Agent**, and **Planner**. Settings, then Permissions has **Locked down**, **Ask first**, **Plan first**, and **Autopilot**, and applying a preset leaves per-site rules untouched. Settings, then Appearance has **Follow system**, **Paper**, **Midnight**, and **Compact**.
 
-The on-page overlay is a real animation layer, not a screenshot decoration: a moving cursor with labels, click ripples, a typing caret, keycaps, scroll hints, and an element flash. It is cosmetic, can be disabled, respects `prefers-reduced-motion`, and is hidden before screenshots.
+The on-page overlay draws a moving cursor with labels, click ripples, a typing caret, keycaps, scroll hints, and an element flash. It is cosmetic, can be disabled, respects `prefers-reduced-motion`, and hides before screenshots.
 
 ![On-page cursor and action hints](docs/screenshots/animations.png)
 
 ### Keys and privacy
 
-- Keys are stored in `chrome.storage.local` by default.
-- A profile can use **session-only keys** (`chrome.storage.session`), which disappear when Chrome closes.
-- Keys are sent only to the provider base URL you configure.
+- Keys live in `chrome.storage.local` by default.
+- A profile can use **session-only keys** in `chrome.storage.session`, which disappear when Chrome closes.
+- Keys go only to the provider base URL you configure.
 - Myna has no telemetry, no relay, and no account system.
 - See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md).
 
-## Tools
+### Safety
 
-Myna exposes a compact tool set. The model can call these through either provider format.
+- Myna refuses to type passwords, one-time codes, or payment-card fields.
+- Banking, brokerage, payment, and government hosts always prompt for actions, even in Auto-run.
+- Page content is untrusted data. The system prompt tells the model to ignore prompt injection inside pages.
+- Confirm purchases, messages, deletions, account changes, and form submissions yourself.
+- CAPTCHAs, login walls, paywalls, and age gates are stop signs. Myna does not bypass them.
+
+## Tool reference
+
+<details>
+<summary><strong>Open the tool list</strong></summary>
 
 | Tool | Purpose |
 | --- | --- |
 | `read_page` | Accessibility tree with stable `ref_N` element IDs |
 | `find` | Local fuzzy search over page elements, returns refs |
-| `get_page_text` | Readable article/main text extraction |
+| `get_page_text` | Readable article and main text extraction |
 | `computer` | Click, type, key, scroll, hover, drag, screenshot, zoom, wait |
 | `form_input` | Set text, select, checkbox, radio, date, range, contenteditable |
 | `file_upload` | Attach user-picked files to a page file input |
@@ -191,9 +236,11 @@ Myna exposes a compact tool set. The model can call these through either provide
 | `read_console_messages` | Console and uncaught errors (debugger) |
 | `read_network_requests` | HTTP request metadata (debugger) |
 | `resize_window` | Responsive testing |
-| `browser_batch` | Up to 12 tool calls sequentially in one round trip |
+| `browser_batch` | Up to 12 tool calls in one round trip |
 | `update_plan` | Plan approval and progress |
 | `javascript_tool` | Off by default; page-context JavaScript |
+
+</details>
 
 See [docs/tools.md](docs/tools.md) for inputs and behaviour. Remote MCP tools are added dynamically as `mcp__<server>__<tool>`.
 
@@ -220,22 +267,45 @@ side panel ── provider API (your key, direct)
 - The side panel owns the conversation and calls your provider directly.
 - The service worker is the only place with privileged browser APIs.
 - Page tools run in Chrome's isolated world through `chrome.scripting`.
-- The side panel is global; per-tab panel documents and chats are intentionally not used.
-- Content is never sent to a Myna server because there isn't one.
+- The side panel is global. Per-tab panel documents and chats are not used.
+- Content never reaches a Myna server because there is no Myna server.
 
 More detail: [docs/architecture.md](docs/architecture.md).
 
+## FAQ
+
+**Do I need an Anthropic account?**  
+No. Myna supports Anthropic, OpenAI, OpenCode Go, Gemini, OpenRouter, Groq, DeepSeek, Mistral, xAI, Together, Fireworks, Azure, Ollama, LM Studio, and any OpenAI-compatible endpoint.
+
+**Which model should I use?**  
+Pick a model with tool calling and a context window that fits the pages you work with. Frontier models handle messy pages best. Local models work well for simple reading and form tasks.
+
+**Is Myna free?**  
+Myna is MIT licensed and costs nothing. You pay your model provider directly. Local models cost nothing beyond your hardware.
+
+**Does it work in Edge or Brave?**  
+It works in Chromium browsers with the Side Panel API, including Chrome 116 or newer, Edge, and Brave. Chrome is the tested target.
+
+**Can Myna read `chrome://` pages?**  
+No. Chrome blocks every extension there. Myna can open a normal tab and work there instead.
+
+**Where does my data go?**  
+Chats, settings, rules, and keys stay in Chrome storage. Page content goes to the model provider you configure. MCP tool calls go to the MCP server you add. Myna runs no backend.
+
+**Why is this beta?**  
+The browser tools and provider adapters are tested, but model APIs, sites, and Chrome APIs change. The project ships fixes from the issues users report.
+
 ## Development
 
-Requirements: Node 20+ for tests and static checks. No npm dependencies.
+Requirements: Node 20 or newer for tests and static checks. There are no npm dependencies.
 
 ```bash
-npm test        # unit tests (SSE, providers, permissions, settings, scheduler)
-npm run check   # parse every script + validate manifest file references
-npm run verify  # both
+npm test        # unit tests for SSE, providers, permissions, settings, scheduler
+npm run check   # parse every script and validate manifest references
+npm run verify  # run both
 ```
 
-Then load the repository folder unpacked in `chrome://extensions`.
+Load the repository folder unpacked in `chrome://extensions` after changes.
 
 ### Project layout
 
@@ -252,41 +322,42 @@ Then load the repository folder unpacked in `chrome://extensions`.
 │   └── assets/          original Myna icon
 ├── tests/               Node test runner
 ├── docs/                architecture, tools, providers, limitations, releases
-├── scripts/check.mjs    syntax + manifest validation
+├── scripts/check.mjs    syntax and manifest validation
 └── .github/             CI, release workflow, issue and PR templates
 ```
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## Limitations
 
 The full list is in [docs/limitations.md](docs/limitations.md). Highlights:
 
-- Chrome/Chromium 116+ only. GitHub releases ship a zip, not a Chrome Web Store package, and there is no auto-update.
-- Remote MCP only: Streamable HTTP, no stdio servers, legacy HTTP+SSE transport, OAuth flow, resources/prompts UI, or sampling.
+- Chrome 116 or newer. GitHub releases ship a zip, not a Chrome Web Store package, and there is no auto-update.
+- Remote MCP only: Streamable HTTP. No stdio servers, legacy HTTP+SSE, OAuth, resources/prompts UI, or sampling.
 - No Claude Desktop pairing, native messaging, relayed inference, or Claude Code integration.
-- Scheduled tasks require Chrome to be running and open a visible window; no cloud cron and no sensitive-site prompts.
-- File uploads use a synthetic `DataTransfer` and may be ignored by sites that require a real picker.
-- GIF recording is capped at 40 frames / 640 px and lives in service-worker memory.
-- Web search is lightweight Bing RSS search, not a licensed search API.
+- Scheduled tasks need Chrome running and open a visible window. There is no cloud cron, and sensitive-site prompts are denied.
+- File uploads use a synthetic `DataTransfer`. Sites that require a real picker may ignore them.
+- GIF recording caps at 40 frames and 640 px wide, and frames live in service-worker memory.
+- Web search uses Bing RSS, not a licensed search API.
 - No memory, projects, or multi-agent orchestration.
 - No cross-origin iframe or closed-shadow-root control.
 - No PDF viewer control, `file://` access, Chrome Web Store access, or browser-internal pages.
 - No CAPTCHA, login-wall, paywall, or anti-bot bypass.
-- Text-only models cannot use screenshots; tool calling is required for actions.
-- Without the optional debugger, synthetic events can fail, and drag/console/network are unavailable.
-- Sensitive-site detection and prompt-injection defenses are best effort, not guarantees.
+- Text-only models cannot use screenshots. Tool calling is required for actions.
+- Without the optional debugger, synthetic events can fail, and drag, console, and network are unavailable.
+- Sensitive-site detection and prompt-injection defenses are best effort. They are not guarantees.
 
-Myna is not a pixel copy of Claude in Chrome or Claude Code, and it does not use their source code.
+Myna is not a pixel copy of Claude in Chrome or Claude Code. It does not use their source code.
 
 ## Contributing
 
-Issues and pull requests are welcome. Good first contributions: provider presets, documentation fixes, test coverage, accessibility, and small UI polish.
+Issues and pull requests are welcome. Good first contributions include provider presets, documentation fixes, test coverage, accessibility, and small UI polish.
 
 - Read [CONTRIBUTING.md](CONTRIBUTING.md).
 - Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 - Report vulnerabilities privately through [SECURITY.md](SECURITY.md).
 - Use [SUPPORT.md](SUPPORT.md) for questions.
+- Check the [open issues](https://github.com/DumDuky/myna-browser-agent/issues) before starting.
+
+If Myna saves you time, a star helps other people find it.
 
 ## Reverse-engineering note
 

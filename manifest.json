@@ -3,7 +3,7 @@
   "name": "Myna",
   "short_name": "Myna",
   "version": "0.2.0",
-  "description": "An open-source browser agent with your own API keys. Chat with the web, automate tabs, and keep your data yours.",
+  "description": "An open-source alternative to Claude in Chrome. Bring your own API key and let an AI agent read, click, fill, and research across tabs.",
   "homepage_url": "https://github.com/DumDuky/myna-browser-agent",
   "minimum_chrome_version": "116",
   "icons": {

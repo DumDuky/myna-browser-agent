@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Myna — an open-source Chrome browser agent with bring-your-own-key providers.",
+  "description": "The open-source alternative to Claude in Chrome. Bring your own API key and let an AI agent read, click, fill, and research across tabs.",
   "license": "MIT",
   "author": "Myna contributors",
   "homepage": "https://github.com/DumDuky/myna-browser-agent#readme",

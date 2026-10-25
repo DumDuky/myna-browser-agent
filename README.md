@@ -89,7 +89,9 @@ This table describes hosted browser assistants in general. Check each product's 
 
 ### One chat across your tabs
 
-![Myna side panel on a Wikipedia page](docs/screenshots/chat.png)
+| Light | Dark |
+| --- | --- |
+| ![Myna side panel on a Wikipedia page](docs/screenshots/chat.png) | ![Myna side panel in dark mode](docs/screenshots/chat-dark.png) |
 
 ### Pick a provider and model
 

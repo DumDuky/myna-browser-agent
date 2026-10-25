@@ -34,14 +34,20 @@ Myna refuses to:
 - Return obvious secrets (JWTs, base64 blobs, cookie strings) from JavaScript results
 - Act on sensitive financial/government sites without a fresh approval
 
+## Supported versions
+
+Security fixes target the latest GitHub release and `main`. Older tags are not maintained.
+
 ## Reporting a vulnerability
 
-Please open a private security advisory in the repository, or email the maintainers if a private channel is listed. Do not publish exploit details before a fix is available. Include:
+Please use [private vulnerability reporting](https://github.com/DumDuky/myna-browser-agent/security/advisories/new). Do not open a public issue or publish exploit details before a fix is available. Include:
 
 - Extension version and browser version
 - A minimal reproduction
 - Impact and affected files
 - Whether the debugger permission was granted
+
+If private reporting is unavailable, open a minimal issue asking for a private channel without including exploit details.
 
 ## What we will not do
 

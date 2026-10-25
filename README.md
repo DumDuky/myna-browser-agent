@@ -66,13 +66,9 @@ Myna is an independent, clean-room Chrome extension inspired by the convenience 
 
 ### Screenshots
 
-| Agent presets | Permission presets |
-| --- | --- |
-| ![Agent presets](docs/screenshots/agent-presets.png) | ![Permission presets](docs/screenshots/permissions.png) |
-
-| Appearance presets | MCP servers |
-| --- | --- |
-| ![Appearance presets](docs/screenshots/appearance.png) | ![MCP settings](docs/screenshots/mcp.png) |
+| Agent presets | Permission presets | Appearance presets |
+| --- | --- | --- |
+| ![Agent presets](docs/screenshots/agent-presets.png) | ![Permission presets](docs/screenshots/permissions.png) | ![Appearance presets](docs/screenshots/appearance.png) |
 
 ## Install
 
